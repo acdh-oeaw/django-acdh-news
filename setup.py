@@ -15,7 +15,7 @@ setup(
     version='0.0.1',
     description='A simple Django app to create and publish short news feeds.',
     long_description=long_description,
-    url="https://redmine.acdh.oeaw.ac.at/issues/8711",
+    url="https://github.com/acdh-oeaw/django-acdh-news",
     author="Peter Andorfer",
     author_email="peter.andorfer@oeaw.ac.at",
     license='MIT',
