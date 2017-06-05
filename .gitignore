@@ -5,7 +5,5 @@ __pycache__/
 #Ipython Notebook
 .ipynb_checkpoints
 
-news.egg-info
-build
 *ipynb
 /*.xml
