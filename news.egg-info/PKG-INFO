@@ -1,8 +1,8 @@
 Metadata-Version: 1.1
 Name: news
-Version: 0.0.1
+Version: 0.1.1
 Summary: A simple Django app to create and publish short news feeds.
-Home-page: https://redmine.acdh.oeaw.ac.at/issues/8711
+Home-page: https://github.com/acdh-oeaw/django-acdh-news
 Author: Peter Andorfer
 Author-email: peter.andorfer@oeaw.ac.at
 License: MIT

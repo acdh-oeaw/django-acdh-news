@@ -12,7 +12,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='news',
-    version='0.0.1',
+    version='0.1.1',
     description='A simple Django app to create and publish short news feeds.',
     long_description=long_description,
     url="https://github.com/acdh-oeaw/django-acdh-news",
