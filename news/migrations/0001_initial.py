@@ -13,115 +13,21 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('places', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Edition',
-            fields=[
-                ('legacy_id', models.IntegerField(primary_key=True, serialize=False)),
-                ('name', models.CharField(blank=True, help_text='The name of the edition (project).', max_length=255)),
-                ('url', models.CharField(blank=True, help_text='The URL of the edition (project).', max_length=255)),
-                ('scholarly', models.CharField(blank=True, choices=[('', '----'), ('yes', 'yes'), ('no', 'no'), ('no information provided', 'no information provided')], help_text='An edition must be critical, must have critical components - a pure facsimile is not an edition, a digital library is not an edition. (Patrick Sahle)', max_length=40)),
-                ('digital', models.CharField(blank=True, choices=[('', '----'), ('yes', 'yes'), ('no', 'no'), ('no information provided', 'no information provided')], help_text='A digital edition can not be converted to a printed edition without substantial loss of content or functionality - vice versa: a retrodigitized printed edition is not a Scholarly Digital Edition (but it may evolve into a Scholarly Digital Edition through new content or functionalities). (Patrick Sahle)', max_length=40)),
-                ('edition', models.CharField(blank=True, choices=[('', '----'), ('yes', 'yes'), ('no', 'no'), ('no information provided', 'no information provided')], help_text='An edition must represent its material (usually as transcribed/edited text) - a catalog, an index, a descriptive database is not an edition. (Patrick Sahle)', max_length=40)),
-                ('writing_support', models.CharField(blank=True, help_text='The nature of the source text (manuscript, letter, notebook, etc.).', max_length=255)),
-                ('begin_date', models.DateField(blank=True, help_text='Year the project started.', null=True)),
-                ('begin_date_comment', models.CharField(blank=True, max_length=50)),
-                ('end_date', models.DateField(blank=True, help_text='Year the project ended. If ongoing, leave blank.', null=True)),
-                ('end_date_comment', models.CharField(blank=True, max_length=50)),
-                ('audience', models.TextField(blank=True, help_text='The target audience of the edition project (scholars, general public, etc.).')),
-                ('philological_statement', models.CharField(blank=True, choices=[('', '----'), ('0', 'No information on the editorial methods and practices nor on the source (digital or printed) of the text.'), ('0.5', 'No information on the source, but some information about the author, date and accuracy of the digital edition.'), ('1', ' Complete information on the source of the text, as well as on the author, date and accuracy of the digital edition. Digital Humanities standards implemented, including modelling, markup language, data structure and software. Values may include a large range of standards used, including HTML, XML-TEI etc.')], max_length=255)),
-                ('textual_variance', models.CharField(blank=True, choices=[('', '----'), ('0', 'No account of textual variance is given. The digital edition is a reproduction of a given print edition without any account of variants.'), ('0.5', 'The digital edition is a reproduction of a given print scholarly edition and reproduces the selected textual variants extant in the apparatus criticus of that edition, or: the edition does not follow a digital paradigm, in that the variants are not automatically computable the way they are encoded.'), ('1', "This edition is 'based on full-text transcription of original texts into electronic form'.")], max_length=255, verbose_name='Account of textual variance')),
-                ('value_witnesses', models.CharField(blank=True, choices=[('', '----'), ('N/A', 'Not applicable, as no information about the source of the text is given, though it is easily assumable that the source is another digital edition or a printed edition (possibly even a scholarly edition'), ('0', 'The only witness modelled digitally is a printed non-scholarly edition, used as a source for the digital edition.'), ('0.5', 'Same as above, but the witness/source is a scholarly edition.'), ('1', 'The witnesses are traditional philological primary sources (including manuscripts, inscriptions or papyri)')], max_length=255, null=True, verbose_name='Value of witnesses')),
-                ('tei_transcription', models.CharField(blank=True, choices=[('', '----'), ('no information provided', 'no information provided'), ('0', 'XML not used'), ('0.5', 'XML but not TEI'), ('1', 'XML-TEI is used')], help_text='The source text is encoded in XML-TEI.', max_length=255, null=True, verbose_name='XML-TEI transcription')),
-                ('download', models.CharField(blank=True, choices=[('', '----'), ('no information provided', 'no information provided'), ('0', 'no'), ('0.5', 'partially'), ('1', 'yes')], help_text='The XML-TEI encoded text is available for download.', max_length=255, null=True, verbose_name='XML-TEI transcription to download')),
-                ('images', models.CharField(blank=True, choices=[('', '----'), ('yes', 'yes'), ('no', 'no'), ('no information provided', 'no information provided')], help_text='The values 1 or 0 are used to tell us if the edition comes with images.', max_length=40)),
-                ('zoom_images', models.CharField(blank=True, choices=[('', '----'), ('yes', 'yes'), ('no', 'no'), ('no information provided', 'no information provided')], help_text='The values 1 or 0 are used to tell us if the user can zoom in or out of images within the edition.', max_length=40)),
-                ('image_manipulation', models.CharField(blank=True, choices=[('', '----'), ('yes', 'yes'), ('no', 'no'), ('no information provided', 'no information provided')], help_text='The values 1 and 0 are used to tell us whether the user can manipulate these images in any way within the edition (brightness, saturation, etc.).', max_length=40)),
-                ('text_image', models.CharField(blank=True, choices=[('', '----'), ('yes', 'yes'), ('no', 'no'), ('no information provided', 'no information provided')], help_text='The transcription and the image are linked so that clicking on a word in the image brings up the corresponding textual token and viceversa.', max_length=40, verbose_name='Text-image linking')),
-                ('source_translation', models.CharField(blank=True, help_text='The project provides a translation of the source text. If so, the corresponding three-letter ISO code should be used. If not, type 0.', max_length=3, verbose_name='Source text translation')),
-                ('glossary', models.CharField(blank=True, choices=[('', '----'), ('yes', 'yes'), ('no', 'no'), ('no information provided', 'no information provided')], help_text='The values 1 or 0 are used to tell us if the edition provides a glossary.', max_length=40)),
-                ('indices', models.CharField(blank=True, choices=[('', '----'), ('yes', 'yes'), ('no', 'no'), ('no information provided', 'no information provided')], help_text='The values 1 or 0 are used to tell us if the edition provides indices.', max_length=40)),
-                ('search', models.CharField(blank=True, choices=[('', '----'), ('yes', 'yes'), ('no', 'no'), ('no information provided', 'no information provided')], help_text='The values 1 or 0 are used to tell us if the edition provides string matching search possibilities.', max_length=40, verbose_name='String matching search')),
-                ('advanced_search', models.CharField(blank=True, choices=[('', '----'), ('yes', 'yes'), ('no', 'no'), ('no information provided', 'no information provided')], help_text='The values 1 or 0 are used to tell us if the edition provides an advanced search functionality.', max_length=40)),
-                ('cc_license', models.CharField(blank=True, choices=[('', '----'), ('no information provided', 'no information provided'), ('0', 'no'), ('0.5', 'partial'), ('1', 'yes')], help_text='This field specifies if the project is protected by a Creative Commons License.', max_length=40, verbose_name='Creative Commons License')),
-                ('open_source', models.CharField(blank=True, choices=[('', '----'), ('no information provided', 'no information provided'), ('0', 'Proprietary, all material is copyrighted. The ‘source’ is closed and not reusable by other research projects. To access the material, users must pay a subscription.'), ('0.5', 'Same as above, but the subscription is free of charge.'), ('1', 'Open Access. The texts may be accessed through specific software, but the source is not accessible.'), ('1.5', 'Open Access and Open Source. Part of the data underlying the digital edition (e.g. text but not images) is freely available for access and reuse.'), ('2', 'Open Access and Open Source. All data underlying the digital edition is freely available for access and reuse.')], help_text='add helptext', max_length=255, verbose_name='Open Source/Open Access')),
-                ('infrastructure', models.CharField(blank=True, help_text='The technologies used to run the project (Drupal, Omeka, MySQL, etc.).', max_length=255)),
-                ('key_or_ocr', models.CharField(blank=True, choices=[('', '----'), ('Keyed', 'Keyed'), ('OCR', 'OCR')], help_text='The source text was digitised with Optical Character Recognition (OCR) software or manually keyed in.', max_length=12, verbose_name='OCR or keyed?')),
-                ('print_friendly', models.CharField(blank=True, choices=[('', '----'), ('yes', 'yes'), ('no', 'no'), ('no information provided', 'no information provided')], help_text='The values 1 or 0 are used to tell if the project provides a print-friendly view of the text (e.g. PDF).', max_length=40)),
-                ('api', models.CharField(blank=True, choices=[('', '----'), ('yes', 'yes'), ('no', 'no'), ('no information provided', 'no information provided')], help_text='The values 1 or 0 are used to specify if the project comes with an API (Application Programming Interface).', max_length=40)),
-                ('current_availability', models.NullBooleanField(help_text='1 means STILL AVAILABLE and 0 means DEAD.')),
-                ('ride_review', models.CharField(blank=True, help_text='Is there a RIDE review', max_length=500, null=True)),
-            ],
-        ),
-        migrations.CreateModel(
-            name='Institution',
+            name='NewsFeed',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(blank=True, help_text="The Instituion's name.", max_length=255)),
-                ('gnd_id', models.CharField(blank=True, help_text='GND id of Institution.', max_length=255)),
-                ('lat', models.DecimalField(blank=True, decimal_places=12, max_digits=20, null=True)),
-                ('lng', models.DecimalField(blank=True, decimal_places=12, max_digits=20, null=True)),
-                ('place', models.ForeignKey(blank=True, help_text='Place which the institution is associated with.', null=True, on_delete=django.db.models.deletion.CASCADE, to='places.Place')),
+                ('title', models.CharField(blank=True, max_length=250)),
+                ('body', models.TextField(blank=True)),
+                ('created', models.DateTimeField(auto_now_add=True)),
+                ('updated', models.DateTimeField(auto_now=True)),
+                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='blog_posts', to=settings.AUTH_USER_MODEL)),
             ],
-        ),
-        migrations.CreateModel(
-            name='Language',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('iso_code', models.CharField(blank=True, max_length=3, null=True)),
-            ],
-        ),
-        migrations.CreateModel(
-            name='Period',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(blank=True, help_text='The Periods Name.', max_length=255)),
-                ('start_date', models.IntegerField(blank=True, null=True)),
-                ('end_date', models.IntegerField(blank=True, null=True)),
-                ('periodO_id', models.CharField(blank=True, help_text='http://perio.do/', max_length=255)),
-            ],
-        ),
-        migrations.CreateModel(
-            name='Person',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(blank=True, help_text="The Person's name.", max_length=255)),
-            ],
-        ),
-        migrations.CreateModel(
-            name='SyncLog',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('sync_date', models.DateTimeField(auto_now_add=True)),
-                ('actor', models.ForeignKey(blank=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-            ],
-        ),
-        migrations.AddField(
-            model_name='edition',
-            name='historical_period',
-            field=models.ManyToManyField(blank=True, help_text='This field broadly categorises an edition by periods', to='editions.Period'),
-        ),
-        migrations.AddField(
-            model_name='edition',
-            name='institution',
-            field=models.ManyToManyField(blank=True, help_text='Name(s) of institution(s) involved in the project.', related_name='projects', to='editions.Institution'),
-        ),
-        migrations.AddField(
-            model_name='edition',
-            name='language',
-            field=models.ManyToManyField(blank=True, help_text='The language(s) of the source text. Three-letter ISO Codes are used.', related_name='lang_source', to='editions.Language'),
-        ),
-        migrations.AddField(
-            model_name='edition',
-            name='manager',
-            field=models.ManyToManyField(blank=True, help_text='Name of project manager(s).', to='editions.Person'),
-        ),
-        migrations.AddField(
-            model_name='edition',
-            name='website_language',
-            field=models.ManyToManyField(blank=True, help_text='The language the project website is written in. Three-letter ISO Codes should be used.', max_length=3, related_name='lang_website', to='editions.Language'),
+            options={
+                'ordering': ['-created'],
+            },
         ),
     ]
